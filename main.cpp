@@ -17,6 +17,8 @@ int main() {
     SquashGame squash;
     allowed=squash.addPerfomer<SquashGame::Roles::Player>(p1);
     cout<<allowed<<endl;
+    allowed=squash.addPerfomer<SquashGame::Roles::Player>(p1);
+    cout<<allowed<<endl;
     allowed=squash.addPerfomer<SquashGame::Roles::Player>(p2);
     cout<<allowed<<endl;
     allowed=squash.addPerfomer<SquashGame::Roles::Player>(p3);

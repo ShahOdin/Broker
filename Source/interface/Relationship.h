@@ -18,7 +18,7 @@ class Relationship{
 
     template<int role>
     Role<role>* getRole() {
-        auto it=roleMap.find(int(role));
+        auto it=roleMap.find(role);
         if ( it == roleMap.end() ) {
             return nullptr;
         } else {
@@ -27,18 +27,35 @@ class Relationship{
         }
     }
 
+    template<int role>
+    bool isPerformerPresent(void *performer) {
+        auto iteratorPair = performerMap.equal_range(role);
+        bool bpresent=false;
+        for (auto& i = iteratorPair.first; i != iteratorPair.second; ++i)
+        {
+            auto p=i->second;
+            if(p==performer){
+                bpresent=true;
+                break;
+            }
+        }
+        return bpresent;
+    }
+
 protected:
     template<int role>
     bool addPerfomer_(void *performer) {
         if(!performerNeeded<role>())
             return false;
-        else
+        else if(!isPerformerPresent<role>(performer))
         {
             auto relationshipRole=getRole<role>();
             relationshipRole->addPerformer();
-            performerMap.emplace(int(role),performer);
+            performerMap.emplace(role,performer);
             return true;
         }
+        else
+            return false;
     }
     std::map<int,RoleBase*>    roleMap;
     std::multimap<int,void*>   performerMap;

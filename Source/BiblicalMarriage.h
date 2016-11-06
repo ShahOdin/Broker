@@ -20,7 +20,7 @@ public:
 
     template <BiblicalMarriage::Roles role>
     bool addPerfomer(void *performer)  {
-        return Relationship::addPerfomer_<int(role)>(performer);
+        return Relationship::addPerfomer_<role>(performer);
     }
 };
 
