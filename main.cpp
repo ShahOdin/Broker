@@ -57,7 +57,11 @@ int main() {
     //The demonstration above only demonstrates registering performers in a relationship and does
     //not actually show any interaction between them. add specialized registerPerformer functions
     //that accept task enums and the associated task request and task handling by the clients and
-    //servers respectively.
+    //servers respectively. The goal is to achieve full static type-checking with Enums so that
+    // performers would only be able to pass on signals/slots of the right signature.
+    //This will most likely have to be done in the form of a Task class that is templatized by
+    //a Task enum and a function signature. This way, the registeration of the performer can only
+    //be called with the right inputs.
 
     return 0;
 }
