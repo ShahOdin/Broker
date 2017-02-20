@@ -8,3 +8,5 @@ This allows for indepdent development of servers that provide a functionality an
 
 
 Moreover, the broker mechanism will allow for dynamic allocation of clients and servers against one another and the wiring of clients and servers is less static/global.
+
+complete static type checking of the system is one of the main objective of this project.
