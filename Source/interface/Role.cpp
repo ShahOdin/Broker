@@ -8,7 +8,7 @@ RoleBase::RoleBase(int maxPerformers) : maxPerformers(maxPerformers){
 
 }
 
-bool RoleBase::performerNeeded() {
+bool RoleBase::isPerformerNeeded() {
     return currentPerformers<maxPerformers;
 }
 

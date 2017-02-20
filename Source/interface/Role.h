@@ -6,20 +6,24 @@
 #define TEMPLATEEXPERIMENT_ROLE_H
 
 
-class RoleBase{
-friend class Relationship;
+class RoleBase {
+    friend class Relationship;
+
     int const maxPerformers;
-    int currentPerformers=0;
-    bool performerNeeded();
+    int currentPerformers = 0;
+
+    bool isPerformerNeeded();
+
     void addPerformer();
+
 protected:
     RoleBase(int maxPerformers);
 };
 
 template<int role>
-class Role : public RoleBase{
+class Role : public RoleBase {
 public:
-    Role<role>(int maxPerformers):RoleBase(maxPerformers){}
+    Role<role>(int maxPerformers) : RoleBase(maxPerformers) {}
 };
 
 

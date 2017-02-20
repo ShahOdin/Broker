@@ -8,14 +8,31 @@
 
 #include "Role.h"
 #include <map>
+#include <iostream>
+
+#include <typeinfo>
+
+//This class is the contact point for the "performers" in a relationship which acts as a contract or
+//between the parties in a "relationship". It defines the set of interactions between the performers.
+//In general, each performer can be a "server" for certain "roles" and a "client" for certain others.
+//concrete relationships, define the signature of the functions to be shared by clients and servers.
+//The servers pass on their function pointers when registering in a relationship and the clients bind
+// their "signals" to them.
 
 class Relationship{
     template<int role>
-    bool performerNeeded(){
+    bool isPerformerNeeded(){
         auto relationshipRole=getRole<role>();
-        return relationshipRole->performerNeeded();
+        if(relationshipRole== nullptr)
+        {
+            std::cout<<"The relationship "<<typeid(this).name()<<"does not need the provided role."<<std::endl;
+            return false;
+        }
+        else
+            return relationshipRole->isPerformerNeeded();
     }
 
+    //Templatizing this function allows easy interaction with a hetrogenous map.
     template<int role>
     Role<role>* getRole() {
         auto it=roleMap.find(role);
@@ -26,7 +43,7 @@ class Relationship{
             return static_cast<Role<role>* >(roleBase);
         }
     }
-
+    //Checks if the performer is already present in a relationship.
     template<int role>
     bool isPerformerPresent(void *performer) {
         auto iteratorPair = performerMap.equal_range(role);
@@ -42,10 +59,12 @@ class Relationship{
         return bpresent;
     }
 
+//This function will be called internally by a concrete relationship to register a new "performer"
+
 protected:
     template<int role>
     bool addPerfomer_(void *performer) {
-        if(!performerNeeded<role>())
+        if(!isPerformerNeeded<role>())
             return false;
         else if(!isPerformerPresent<role>(performer))
         {

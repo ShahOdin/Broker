@@ -18,9 +18,11 @@ public:
         Player,
         Referee
     };
-
+//In general, the registerPerfomer function will be templatized based on a "task" enum.
+//The task enum determines what signal will be matched to what function. To keep things
+//simple for the purposes of demonstration, tasks are deferred to later.
     template <SquashGame::Roles role>
-    bool addPerfomer(void *performer)  {
+    bool registerPerfomer(void *performer)  {
         return Relationship::addPerfomer_<role>(performer);
     }
 };
