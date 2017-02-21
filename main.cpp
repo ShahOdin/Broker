@@ -43,6 +43,8 @@ int main() {
     //You can't join a marriage when your role is taken.
     allowed= marriage.registerPerfomer<BiblicalMarriage::Roles::Woman>(p4);
     cout<<allowed<<endl;
+    
+    //todo: think about the decision of whether or not a performer can play multiple roles and where it should be decided/overwritten. 
 
     //todo:
     //add a broker layer that would act as a match-maker. this way, the performers would only
