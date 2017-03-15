@@ -22,8 +22,8 @@ public:
 //The task enum determines what signal will be matched to what function. To keep things
 //simple for the purposes of demonstration, tasks are deferred to later.
     template <BiblicalMarriage::Roles role>
-    bool registerPerfomer(void *performer)  {
-        return Relationship::addPerfomer_<role>(performer);
+    void registerPerfomer(void *performer)  {
+        Relationship::addPerformer<role>(performer);
     }
 };
 

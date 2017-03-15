@@ -12,6 +12,33 @@
 
 #include <typeinfo>
 
+class MultipleRolesInRelationship: public std::exception
+{
+    virtual const char* what() const throw()
+    {
+        return "Playing multiple roles in this relationship is not allowed.\n"
+                "ie. you can't be both the teacher and the student in the class.";
+    }
+};
+
+class DuplicateRolesInRelationship: public std::exception
+{
+    virtual const char* what() const throw()
+    {
+        return "Playing the same role in a relationship twice is not allowed. ie.\n"
+                "1. You can't play squash against yourself.\n"
+                "2. You can't be your own partner in double tennis";
+    }
+};
+
+class RoleTaken: public std::exception
+{
+    virtual const char* what() const throw()
+    {
+        return "role(s) are already filled.";
+    }
+};
+
 //This class is the contact point for the "performers" in a relationship which acts as a contract or
 //between the parties in a "relationship". It defines the set of interactions between the performers.
 //In general, each performer can be a "server" for certain "roles" and a "client" for certain others.
@@ -20,6 +47,37 @@
 // their "signals" to them.
 
 class Relationship{
+
+//This function will be called internally by a concrete relationship to register a new "performer"
+protected:
+    template<int role>
+    bool addPerformer(void *performer){
+        bool success=true;
+        try {
+            registerPerformer<role>(performer);
+        }
+        catch (std::exception& e)
+        {
+            std::cout << e.what() << '\n';
+            success=false;
+        }
+        return success;
+    }
+    //The container with the information about
+    // the roles in a relationship
+    std::map<int,RoleBase*>    roleMap;
+private:
+    template<int role>
+    void registerPerformer(void *performer) {
+        if(isPerformerNeeded<role>()){
+            CheckPerformerQualified<role>(performer);
+            auto relationshipRole=getRole<role>();
+            relationshipRole->addPerformer();
+            performerMap.emplace(role,performer);
+        }
+        else
+            throw RoleTaken();
+    }
     template<int role>
     bool isPerformerNeeded(){
         auto relationshipRole=getRole<role>();
@@ -43,40 +101,19 @@ class Relationship{
             return static_cast<Role<role>* >(roleBase);
         }
     }
-    //Checks if the performer is already present in a relationship.
+    //Checks if the performer faces any restrictions which might limit
+    //its participation in the relationship.
     template<int role>
-    bool isPerformerPresent(void *performer) {
-        auto iteratorPair = performerMap.equal_range(role);
-        bool bpresent=false;
-        for (auto& i = iteratorPair.first; i != iteratorPair.second; ++i)
-        {
-            auto p=i->second;
-            if(p==performer){
-                bpresent=true;
-                break;
+    void CheckPerformerQualified(void *performer) {
+        for (auto& kv : performerMap) {
+            if(kv.second==performer){
+                if(kv.first==role)
+                    throw DuplicateRolesInRelationship();
+                else
+                    throw MultipleRolesInRelationship();
             }
         }
-        return bpresent;
     }
-
-//This function will be called internally by a concrete relationship to register a new "performer"
-
-protected:
-    template<int role>
-    bool addPerfomer_(void *performer) {
-        if(!isPerformerNeeded<role>())
-            return false;
-        else if(!isPerformerPresent<role>(performer))
-        {
-            auto relationshipRole=getRole<role>();
-            relationshipRole->addPerformer();
-            performerMap.emplace(role,performer);
-            return true;
-        }
-        else
-            return false;
-    }
-    std::map<int,RoleBase*>    roleMap;
     std::multimap<int,void*>   performerMap;
 };
 

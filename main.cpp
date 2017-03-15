@@ -7,7 +7,6 @@ using namespace std;
 class performer{};
 
 int main() {
-    bool allowed;
     auto p1 = new performer();
     auto p2 = new performer();
     auto p3 = new performer();
@@ -15,34 +14,31 @@ int main() {
     auto p5 = new performer();
 
     SquashGame squash;
-    allowed= squash.registerPerfomer<SquashGame::Roles::Player>(p1);
-    cout<<allowed<<endl;
+    squash.registerPerfomer<SquashGame::Roles::Player>(p1);
+
     //you can't play squash with yourself:
-    allowed= squash.registerPerfomer<SquashGame::Roles::Player>(p1);
-    cout<<allowed<<endl;
-    allowed= squash.registerPerfomer<SquashGame::Roles::Player>(p2);
-    cout<<allowed<<endl;
+    squash.registerPerfomer<SquashGame::Roles::Player>(p1);
+
+    squash.registerPerfomer<SquashGame::Roles::Player>(p2);
     //You can't join a game when your role is taken:
-    allowed= squash.registerPerfomer<SquashGame::Roles::Player>(p3);
-    cout<<allowed<<endl;
-    allowed= squash.registerPerfomer<SquashGame::Roles::Referee>(p4);
-    cout<<allowed<<endl;
+    squash.registerPerfomer<SquashGame::Roles::Player>(p3);
+
+    squash.registerPerfomer<SquashGame::Roles::Referee>(p4);
+
     //You can't join a game when your role is taken:
-    allowed= squash.registerPerfomer<SquashGame::Roles::Referee>(p5);
-    cout<<allowed<<endl;
-    cout<<"______"<<endl;
+    squash.registerPerfomer<SquashGame::Roles::Referee>(p5);
 
     BiblicalMarriage marriage;
-    allowed= marriage.registerPerfomer<BiblicalMarriage::Roles::Man>(p1);
-    cout<<allowed<<endl;
+    marriage.registerPerfomer<BiblicalMarriage::Roles::Man>(p1);
+
     //You can't join a marriage when your role is taken.
-    allowed= marriage.registerPerfomer<BiblicalMarriage::Roles::Man>(p2);
-    cout<<allowed<<endl;
-    allowed= marriage.registerPerfomer<BiblicalMarriage::Roles::Woman>(p3);
-    cout<<allowed<<endl;
+    marriage.registerPerfomer<BiblicalMarriage::Roles::Man>(p2);
+
+    marriage.registerPerfomer<BiblicalMarriage::Roles::Woman>(p3);
+
     //You can't join a marriage when your role is taken.
-    allowed= marriage.registerPerfomer<BiblicalMarriage::Roles::Woman>(p4);
-    cout<<allowed<<endl;
+    marriage.registerPerfomer<BiblicalMarriage::Roles::Woman>(p4);
+
     
     //todo: think about the decision of whether or not a performer can play multiple roles and where it should be decided/overwritten. 
 
