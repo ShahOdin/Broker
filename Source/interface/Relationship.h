@@ -43,7 +43,7 @@ class RoleNotDefined: public std::exception
 {
     virtual const char* what() const throw()
     {
-        return "The provided role is not defined in this relationship.";
+        return "The provided role is not added to this relationship instance.";
     }
 };
 
