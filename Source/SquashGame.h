@@ -8,7 +8,6 @@
 
 #include "interface/Relationship.h"
 
-
 class SquashGame: public Relationship{
 public:
     SquashGame();
@@ -18,6 +17,7 @@ public:
         Player,
         Referee
     };
+
 //In general, the registerPerfomer function will be templatized based on a "task" enum.
 //The task enum determines what signal will be matched to what function. To keep things
 //simple for the purposes of demonstration, tasks are deferred to later.
@@ -26,6 +26,5 @@ public:
         Relationship::addPerformer<role>(performer);
     }
 };
-
 
 #endif //TEMPLATEEXPERIMENT_SQUASHGAME_H

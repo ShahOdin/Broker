@@ -2,7 +2,7 @@
 // Created by shahab on 05/11/2016.
 //
 
-#include "Role.h"
+#include "RelationshipRole.h"
 
 RoleBase::RoleBase(int maxPerformers) : maxPerformers(maxPerformers){
 

@@ -21,9 +21,9 @@ protected:
 };
 
 template<int role>
-class Role : public RoleBase {
+class RelationshipRole : public RoleBase {
 public:
-    Role<role>(int maxPerformers) : RoleBase(maxPerformers) {}
+    RelationshipRole<role>(int maxPerformers) : RoleBase(maxPerformers) {}
 };
 
 

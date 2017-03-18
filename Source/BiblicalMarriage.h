@@ -6,8 +6,6 @@
 #define TEMPLATEEXPERIMENT_BIBLICALMARRIAGE_H
 #include "interface/Relationship.h"
 
-
-
 class BiblicalMarriage : public Relationship{
 public:
     BiblicalMarriage();
@@ -26,6 +24,5 @@ public:
         Relationship::addPerformer<role>(performer);
     }
 };
-
 
 #endif //TEMPLATEEXPERIMENT_BIBLICALMARRIAGE_H

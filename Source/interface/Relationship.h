@@ -6,7 +6,7 @@
 #define TEMPLATEEXPERIMENT_RELATIONSHIP_H
 
 
-#include "Role.h"
+#include "RelationshipRole.h"
 #include <map>
 #include <iostream>
 
@@ -39,13 +39,20 @@ class RoleTaken: public std::exception
     }
 };
 
+class RoleNotDefined: public std::exception
+{
+    virtual const char* what() const throw()
+    {
+        return "The provided role is not defined in this relationship.";
+    }
+};
+
 //This class is the contact point for the "performers" in a relationship which acts as a contract or
 //between the parties in a "relationship". It defines the set of interactions between the performers.
 //In general, each performer can be a "server" for certain "roles" and a "client" for certain others.
 //concrete relationships, define the signature of the functions to be shared by clients and servers.
 //The servers pass on their function pointers when registering in a relationship and the clients bind
 // their "signals" to them.
-
 class Relationship{
 
 //This function will be called internally by a concrete relationship to register a new "performer"
@@ -83,8 +90,7 @@ private:
         auto relationshipRole=getRole<role>();
         if(relationshipRole== nullptr)
         {
-            std::cout<<"The relationship "<<typeid(this).name()<<"does not need the provided role."<<std::endl;
-            return false;
+            throw RoleNotDefined();
         }
         else
             return relationshipRole->isPerformerNeeded();
@@ -92,15 +98,16 @@ private:
 
     //Templatizing this function allows easy interaction with a hetrogenous map.
     template<int role>
-    Role<role>* getRole() {
+    RelationshipRole<role>* getRole() {
         auto it=roleMap.find(role);
         if ( it == roleMap.end() ) {
             return nullptr;
         } else {
             RoleBase* roleBase= it->second;
-            return static_cast<Role<role>* >(roleBase);
+            return static_cast<RelationshipRole<role>* >(roleBase);
         }
     }
+
     //Checks if the performer faces any restrictions which might limit
     //its participation in the relationship.
     template<int role>
