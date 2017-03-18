@@ -40,8 +40,6 @@ int main() {
     marriage.registerPerfomer<BiblicalMarriage::Roles::Woman>(p4);
 
     
-    //todo: think about the decision of whether or not a performer can play multiple roles and where it should be decided/overwritten. 
-
     //todo:
     //add a broker layer that would act as a match-maker. this way, the performers would only
     //register themselves with a broker which will be in charge of creating relationship
